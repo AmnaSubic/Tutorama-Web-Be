@@ -21,16 +21,23 @@ Route::group ([
     Route::post('register', 'AuthController@register');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+    Route::get('me', 'AuthController@me');
     Route::post('sendPasswordResetLink', 'ResetPasswordController@sendEmail');
     Route::post('resetPassword', 'ChangePasswordController@process');
+    //Route::post('user', '');
 });
 
-Route::resource('users', 'UserController');
-Route::resource('students', 'StudentController');
-Route::resource('tutors', 'TutorController');
-Route::resource('classes', 'ClassesController');
-Route::resource('services', 'ServicesController');
-Route::resource('reviews', 'ReviewsController');
-Route::resource('available_times','AvailableTimesController');
-Route::resource('subjects', 'SubjectController');
+Route::middleware('api:auth')->group(function() {
+    Route::get('profile', function() {
+        return auth()->user;
+    });
+    Route::resource('users', 'UserController');
+    Route::resource('students', 'StudentController');
+    Route::resource('tutors', 'TutorController');
+    Route::resource('classes', 'ClassesController');
+    Route::resource('services', 'ServicesController');
+    Route::resource('reviews', 'ReviewsController');
+    Route::resource('available_times','AvailableTimesController');
+    Route::resource('subjects', 'SubjectController');
+
+});

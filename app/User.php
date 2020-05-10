@@ -33,6 +33,10 @@ class User extends Authenticatable implements JWTSubject
         'Availability'
     ];
 
+    protected $hidden = [
+        'Password'
+    ];
+
     /**
      *Get the identifier that will be stored in the subject class of the JWT.
      *
