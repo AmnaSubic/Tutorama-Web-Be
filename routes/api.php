@@ -24,13 +24,12 @@ Route::group ([
     Route::get('me', 'AuthController@me');
     Route::post('sendPasswordResetLink', 'ResetPasswordController@sendEmail');
     Route::post('resetPassword', 'ChangePasswordController@process');
-    //Route::post('user', '');
+    Route::post('addService', 'ServicesController@store');
+    Route::get('subjects', 'SubjectController@index');
+    Route::get('userService', 'ServicesController@userService');
 });
 
-Route::middleware('api:auth')->group(function() {
-    Route::get('profile', function() {
-        return auth()->user;
-    });
+
     Route::resource('users', 'UserController');
     Route::resource('students', 'StudentController');
     Route::resource('tutors', 'TutorController');
@@ -39,5 +38,3 @@ Route::middleware('api:auth')->group(function() {
     Route::resource('reviews', 'ReviewsController');
     Route::resource('available_times','AvailableTimesController');
     Route::resource('subjects', 'SubjectController');
-
-});

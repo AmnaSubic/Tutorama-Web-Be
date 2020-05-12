@@ -6,6 +6,7 @@ use App\Services;
 use App\Http\Resources\Services as ServicesResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\DB;
 
 class ServicesController extends Controller
 {
@@ -17,6 +18,11 @@ class ServicesController extends Controller
     public function index()
     {
         return ServicesResource::collection(Services::all());
+    }
+
+    public function userService()
+    {
+
     }
 
     /**
