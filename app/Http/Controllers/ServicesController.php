@@ -20,9 +20,9 @@ class ServicesController extends Controller
         return ServicesResource::collection(Services::all());
     }
 
-    public function userService()
+    public function userServices()
     {
-
+        return ServicesResource::collection(Services::all()->where('Tutor_ID', auth()->user()->getAuthIdentifier()));
     }
 
     /**

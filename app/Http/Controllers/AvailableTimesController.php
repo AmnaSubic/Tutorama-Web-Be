@@ -19,6 +19,11 @@ class AvailableTimesController extends Controller
         return ATResource::collection(AvailableTimes::all());
     }
 
+    public function userAvailableTimes()
+    {
+        return ATResource::collection(AvailableTimes::all()->where('Tutor_ID', auth()->user()->getAuthIdentifier()));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

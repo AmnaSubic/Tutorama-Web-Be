@@ -26,7 +26,9 @@ Route::group ([
     Route::post('resetPassword', 'ChangePasswordController@process');
     Route::post('addService', 'ServicesController@store');
     Route::get('subjects', 'SubjectController@index');
-    Route::get('userService', 'ServicesController@userService');
+    Route::get('userServices', 'ServicesController@userServices');
+    Route::post('addAvailableTime', 'AvailableTimesController@store');
+    Route::get('getUserAvailableTimes', 'AvailableTimesController@userAvailableTimes');
 });
 
 
