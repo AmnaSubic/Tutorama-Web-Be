@@ -25,10 +25,11 @@ Route::group ([
     Route::post('sendPasswordResetLink', 'ResetPasswordController@sendEmail');
     Route::post('resetPassword', 'ChangePasswordController@process');
     Route::post('addService', 'ServicesController@store');
-    Route::get('subjects', 'SubjectController@index');
-    Route::get('userServices', 'ServicesController@userServices');
+    Route::get('getSubjects', 'SubjectController@index');
+    Route::get('getUserServices', 'ServicesController@userServices');
     Route::post('addAvailableTime', 'AvailableTimesController@store');
     Route::get('getUserAvailableTimes', 'AvailableTimesController@userAvailableTimes');
+    Route::get('getServices', 'ServicesController@index');
 });
 
 

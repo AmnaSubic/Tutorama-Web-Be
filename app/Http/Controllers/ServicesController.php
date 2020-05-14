@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Services;
 use App\Http\Resources\Services as ServicesResource;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class ServicesController extends Controller
@@ -13,11 +13,15 @@ class ServicesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return AnonymousResourceCollection
+     * @return Collection
      */
     public function index()
     {
-        return ServicesResource::collection(Services::all());
+        return DB::table('services')
+            -> join('users', 'services.Tutor_ID', '=', 'users.User_ID')
+            -> join('subjects', 'services.Subject_ID', '=', 'subjects.Subject_ID')
+            -> select('services.*', 'users.First_Name', 'users.Last_Name', 'subjects.Name')
+            -> get();
     }
 
     public function userServices()
