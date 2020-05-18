@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-se|--------------------------------------------------------------------------
+|--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
@@ -16,52 +16,95 @@ Route::group ([
    'middleware' => 'api',
 
 ], function () {
-    /**
-     * Post functions
+    /*
+    |-----------------------------|
+    |       POST FUNCTIONS        |
+    |-----------------------------|
+    */
+    /*
+     * LOGIN
      */
-    //login
         Route::post('login', 'AuthController@login');
-    //register
+    /*
+     * REGISTER
+     */
         Route::post('register', 'AuthController@register');
-    //logout
+    /*
+     * LOGOUT
+     */
         Route::post('logout', 'AuthController@logout');
-    //refresh
+    /*
+     * REFRESH
+     */
         Route::post('refresh', 'AuthController@refresh');
-    //send email for password reset
+    /*
+     * SEND PASSWORD RESET LINK
+     */
         Route::post('sendPasswordResetLink', 'ResetPasswordController@sendEmail');
-    //process password request
+    /*
+     * PROCESS PASSWORD RESET
+     */
         Route::post('resetPassword', 'ChangePasswordController@process');
-    //store new tutor service
+    /*
+     * STORE NEW SERVICE (TUTOR)
+     */
         Route::post('addService', 'ServicesController@store');
-    //store new available time for currently authorised user
+    /*
+     * STORE NEW AVAILABLE TIME (TUTOR)
+     */
         Route::post('addAvailableTime', 'AvailableTimesController@store');
-    //store new class
+    /*
+     * STORE NEW CLASS (STUDENT)
+     */
         Route::post('addClass', 'ClassesController@store');
 
-    /**
-     * Get functions
+    /*
+    |-----------------------------|
+    |       GET FUNCTIONS         |
+    |-----------------------------|
+    */
+    /*
+     * GET AUTHORIZED USER
      */
-    //authorised user
         Route::get('me', 'AuthController@me');
-    //get all subjects
+    /*
+     * GET ALL SUBJECTS
+     */
         Route::get('getSubjects', 'SubjectController@index');
-    //get user services for currently authorised user
+    /*
+     * GET ALL SERVICES FOR AUTHORISED USER (TUTOR)
+     */
         Route::get('getAuthUserServices', 'ServicesController@authUserServices');
-    //get available times for currently authorised user
+    /*
+     * GET ALL AVAILABLE TIMES FOR AUTHORISED USER (TUTOR)
+     */
         Route::get('getAuthUserAvailableTimes', 'AvailableTimesController@authUserAvailableTimes');
-    //get all services from all users
+    /*
+     * GET ALL SERVICES IN THE DB
+     */
         Route::get('getServices', 'ServicesController@index');
-    //get information for a specific service
+    /*
+     * GET INFORMATION ABOUT A SPECIFIED SERVICE
+     */
         Route::get('getServices/{id}', 'ServicesController@show');
-    //get data for a specific user
+    /*
+     * GET INFORMATION ABOUT A SPECIFIED USER
+     */
         Route::get('getUser/{id}', 'UserController@user');
-    //get all services of a specific user
+    /*
+     * GET ALL SERVICES OF A SPECIFIED USER
+     */
         Route::get('getUser/{id}/services','ServicesController@userServices');
-    //get all available times of a specific user
+    /*
+     * GET ALL AVAILABLE TIMES OF A SPECIFIED USER
+     */
         Route::get('getUser/{id}/availableTimes','AvailableTimesController@userAvailableTimes');
-    //get classes for authorized student
+    /*
+     * GET ALL CLASSES FOR AUTHORISED USER (STUDENT)
+     */
         Route::get('getAuthStudentClasses','ClassesController@authStudentClasses');
-    //get classes for authorized tutor
+    /*
+     * GET ALL CLASSES FOR AUTHORISED USER (TUTOR)
+     */
         Route::get('getAuthTutorClasses', 'ClassesController@authTutorClasses');
-
 });
