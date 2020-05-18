@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services;
 use App\Http\Resources\Services as ServicesResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -20,13 +21,50 @@ class ServicesController extends Controller
         return DB::table('services')
             -> join('users', 'services.Tutor_ID', '=', 'users.User_ID')
             -> join('subjects', 'services.Subject_ID', '=', 'subjects.Subject_ID')
-            -> select('services.*', 'users.First_Name', 'users.Last_Name', 'subjects.Name')
+            -> select('services.*', 'users.Town', 'users.Country', 'subjects.Subject_Name')
             -> get();
     }
 
-    public function userServices()
+    /**
+     * Display services for authorized user.
+     *
+     * @return AnonymousResourceCollection
+     */
+
+    public function authUserServices()
     {
         return ServicesResource::collection(Services::all()->where('Tutor_ID', auth()->user()->getAuthIdentifier()));
+    }
+
+    /**
+     * Display services for selected tutor.
+     *
+     * @param int $id
+     * @return Collection
+     */
+
+    public function userServices($id) {
+        return DB::table('services')
+            -> join('subjects', 'services.Subject_ID', '=', 'subjects.Subject_ID')
+            -> where('services.Tutor_ID', $id)
+            -> select('services.*', 'subjects.Subject_Name')
+            -> get();
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param integer $id
+     * @return Collection
+     */
+    public function show($id)
+    {
+        return DB::table('services')
+            -> join('users', 'services.Tutor_ID', 'users.User_ID')
+            -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
+            -> where('services.Service_ID', $id)
+            -> select('services.*', 'users.First_Name', 'users.Last_Name', 'users.Experience', 'users.Description', 'users.Availability', 'users.Town', 'users.Country', 'subjects.Subject_Name')
+            -> get();
     }
 
     /**
@@ -40,17 +78,6 @@ class ServicesController extends Controller
         $services = Services::create($request->all());
 
         return new ServicesResource($services);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Services $services
-     * @return void
-     */
-    public function show(Services $services)
-    {
-        //
     }
 
     /**

@@ -15,7 +15,6 @@ class Classes extends Model
         'Start_at',
         'End_at',
         'Place',
-        'Subject',
         'Price'
     ];
 }

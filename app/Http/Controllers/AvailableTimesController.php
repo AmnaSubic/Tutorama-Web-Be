@@ -14,14 +14,27 @@ class AvailableTimesController extends Controller
      *
      * @return AnonymousResourceCollection
      */
-    public function index()
-    {
+    public function index() {
         return ATResource::collection(AvailableTimes::all());
     }
 
-    public function userAvailableTimes()
-    {
+    /**
+     * Display available times for authorized user.
+     *
+     * @return AnonymousResourceCollection
+     */
+    public function authUserAvailableTimes() {
         return ATResource::collection(AvailableTimes::all()->where('Tutor_ID', auth()->user()->getAuthIdentifier()));
+    }
+
+    /**
+     * Display available times for selected tutor.
+     *
+     * @param int $id
+     * @return AnonymousResourceCollection
+     */
+    public function userAvailableTimes($id) {
+        return ATResource::collection(AvailableTimes::all()->where('Tutor_ID', $id));
     }
 
     /**
@@ -30,22 +43,9 @@ class AvailableTimesController extends Controller
      * @param Request $request
      * @return ATResource
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $at = AvailableTimes::create($request->all());
-
         return new ATResource($at);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return void
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**

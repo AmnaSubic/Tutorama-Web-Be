@@ -14,16 +14,19 @@ class UserController extends Controller
      *
      * @return AnonymousResourceCollection
      */
-    public function index()
-    {
+    public function index() {
         return UserResource::collection(User::all());
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show tutor profile by id
      *
-     * @return void
+     * @param int $id
+     * @return AnonymousResourceCollection
      */
+    public function user($id) {
+        return UserResource::collection(User::all()->where('User_ID', $id));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -31,12 +34,9 @@ class UserController extends Controller
      * @param Request $request
      * @return UserResource
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $user = User::create($request->all());
-
         return new UserResource($user);
-
     }
 
     /**

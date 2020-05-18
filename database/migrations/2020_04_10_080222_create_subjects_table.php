@@ -15,7 +15,7 @@ class CreateSubjectsTable extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id('Subject_ID')->primary()->autoIncrement();
-            $table->string('Name', 255);
+            $table->string('Subject_Name', 255);
         });
     }
 

@@ -21,7 +21,6 @@ class CreateClassesTable extends Migration
             $table->time('Start_at');
             $table->time('End_at');
             $table->string('Place',255);
-            $table->string('Subject',255);
             $table->decimal('Price',10,2);
             $table->enum('Status', array('pending','accepted','rejected','finished','cancelled','in progress'));
 

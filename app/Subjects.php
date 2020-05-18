@@ -9,6 +9,6 @@ class Subjects extends Model
     public $timestamps = false;
 
     protected $fillable = [
-      'Name'
+      'Subject_Name'
     ];
 }
