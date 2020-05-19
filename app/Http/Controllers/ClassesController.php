@@ -22,11 +22,15 @@ class ClassesController extends Controller
     }
 
     /**
-     * Display classes for the authorized student.
+     * Display classes for the authorized user.
      *
      * @return Collection
      */
-    public function authStudentClasses() {
+    public function authClasses() {
+        $isTutor = DB::table('users')
+            -> where('User_ID', auth()->user()->getAuthIdentifier())
+            -> value('Is_Tutor');
+        if ($isTutor == 0)
         return DB::table('classes')
             -> join('services', 'classes.Service_ID', 'services.Service_ID')
             -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
@@ -34,19 +38,12 @@ class ClassesController extends Controller
             -> where('classes.Student_ID', '=', auth()->user()->getAuthIdentifier())
             -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name', 'users.Town', 'users.Country')
             -> get();
-    }
-
-    /**
-     * Display classes for the authorized tutor.
-     *
-     * @return Collection
-     */
-    public function authTutorClasses() {
-        return DB::table('classes')
+        else return DB::table('classes')
             -> join('services','classes.Service_ID','services.Service_ID')
             -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
+            -> join('users', 'classes.Student_ID', 'users.User_ID')
             -> where('services.Tutor_ID', '=', auth()->user()->getAuthIdentifier())
-            -> select('classes.*', 'services.*', 'subjects.Subject_Name')
+            -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name')
             -> get();
     }
 

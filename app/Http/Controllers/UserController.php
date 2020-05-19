@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\User as UserResource;
 use App\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Integer;
 
 class UserController extends Controller
 {
@@ -19,13 +22,27 @@ class UserController extends Controller
     }
 
     /**
+     * Get value of Is_Tutor for authorised user.
+     *
+     * @return Integer
+     */
+    public function getIsTutor() {
+        return DB::table('users')
+            -> where('User_ID', auth()->user()->getAuthIdentifier())
+            -> value('Is_Tutor');
+    }
+
+    /**
      * Show tutor profile by id
      *
      * @param int $id
-     * @return AnonymousResourceCollection
+     * @return JsonResponse
      */
     public function user($id) {
-        return UserResource::collection(User::all()->where('User_ID', $id));
+        $user = DB::table('users')
+            ->where('User_ID', $id)
+            ->first();
+        return response()->json($user);
     }
 
     /**

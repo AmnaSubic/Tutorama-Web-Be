@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services;
 use App\Http\Resources\Services as ServicesResource;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
@@ -28,12 +29,16 @@ class ServicesController extends Controller
     /**
      * Display services for authorized user.
      *
-     * @return AnonymousResourceCollection
+     * @return Collection
      */
 
     public function authUserServices()
     {
-        return ServicesResource::collection(Services::all()->where('Tutor_ID', auth()->user()->getAuthIdentifier()));
+        return DB::table('services')
+            -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
+            -> where('services.Tutor_ID', auth()->user()->getAuthIdentifier())
+            -> select('services.*', 'subjects.Subject_Name')
+            -> get();
     }
 
     /**
@@ -55,16 +60,17 @@ class ServicesController extends Controller
      * Display the specified resource.
      *
      * @param integer $id
-     * @return Collection
+     * @return JsonResponse
      */
     public function show($id)
     {
-        return DB::table('services')
+        $service = DB::table('services')
             -> join('users', 'services.Tutor_ID', 'users.User_ID')
             -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
             -> where('services.Service_ID', $id)
             -> select('services.*', 'users.First_Name', 'users.Last_Name', 'users.Experience', 'users.Description', 'users.Availability', 'users.Town', 'users.Country', 'subjects.Subject_Name')
-            -> get();
+            -> first();
+        return response()->json($service);
     }
 
     /**
