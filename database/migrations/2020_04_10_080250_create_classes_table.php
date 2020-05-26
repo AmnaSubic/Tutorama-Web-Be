@@ -22,7 +22,8 @@ class CreateClassesTable extends Migration
             $table->time('End_at');
             $table->string('Place',255);
             $table->decimal('Price',10,2);
-            $table->enum('Status', array('pending','accepted','rejected','finished','cancelled','in progress'));
+            $table->enum('Status', array('Pending','Accepted','Rejected','Finished','Cancelled','Started'));
+            $table->enum('Stu_Status', array('Started', 'Finished', 'Cancelled'));
 
             $table->foreign('Service_ID')
                 ->references('Service_ID')

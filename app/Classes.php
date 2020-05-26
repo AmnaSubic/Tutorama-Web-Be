@@ -15,6 +15,8 @@ class Classes extends Model
         'Start_at',
         'End_at',
         'Place',
-        'Price'
+        'Price',
+        'Status',
+        'Stu_Status'
     ];
 }

@@ -38,6 +38,12 @@ Route::group ([
     /* STORE NEW CLASS (STUDENT) */
     Route::post('addClass', 'ClassesController@store');
 
+    /* UPDATE CLASS STATUS */
+    Route::post('updateClassStatus/{status}/{id}', 'ClassesController@updateStatus');
+
+    /* UPDATE STUDENT CLASS STATUS */
+    Route::post('updateStudentClassStatus/{status}/{id}', 'ClassesController@updateStudentStatus');
+
     /*
     |-----------------------------|
     |       GET FUNCTIONS         |
@@ -72,5 +78,8 @@ Route::group ([
 
     /* GET ALL CLASSES FOR AUTHORISED USER */
     Route::get('getAuthClasses','ClassesController@authClasses');
+
+    /* GET CLASS INFO */
+    Route::get('getServices/{id}', 'ClassesController@show');
 
 });
