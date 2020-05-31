@@ -80,6 +80,6 @@ Route::group ([
     Route::get('getAuthClasses','ClassesController@authClasses');
 
     /* GET CLASS INFO */
-    Route::get('getServices/{id}', 'ClassesController@show');
+    Route::get('getAuthClasses/{id}', 'ClassesController@show');
 
 });

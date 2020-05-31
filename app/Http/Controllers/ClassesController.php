@@ -37,7 +37,7 @@ class ClassesController extends Controller
             -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
             -> join('users', 'services.Tutor_ID', 'users.User_ID')
             -> where('classes.Student_ID', '=', auth()->user()->getAuthIdentifier())
-            -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name', 'users.Town', 'users.Country')
+            -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name')
             -> get();
         else return DB::table('classes')
             -> join('services','classes.Service_ID','services.Service_ID')
@@ -78,7 +78,8 @@ class ClassesController extends Controller
                 -> join('users', 'services.Tutor_ID', 'users.User_ID')
                 -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
                 -> where('classes.Class_ID', $id)
-                -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name', 'users.Town', 'users.Country')
+                -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name',
+                'users.Date_of_Birth', 'users.Town', 'users.Country', 'users.Gender')
                 -> first();
         else
             $class = DB::table('classes')
@@ -86,7 +87,8 @@ class ClassesController extends Controller
             -> join('users', 'classes.Student_ID', 'users.User_ID')
             -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
             -> where('classes.Class_ID', $id)
-            -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name')
+            -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name',
+                'users.Date_of_Birth', 'users.Town', 'users.Country', 'users.Gender')
             -> first();
         return response()->json($class);
     }

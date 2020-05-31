@@ -29,7 +29,7 @@ class CreateUser extends Migration
             $table->string('Description',1000) -> nullable();
             $table->boolean('Is_Tutor');
             $table->string('Experience', 255) -> nullable();
-            $table->enum('Availability', array('fixed','flexible')) -> nullable();
+            $table->enum('Availability', array('Fixed','Flexible')) -> nullable();
         });
     }
 
