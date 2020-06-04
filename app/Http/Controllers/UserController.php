@@ -33,7 +33,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show tutor profile by id
+     * Show profile by id
      *
      * @param int $id
      * @return JsonResponse
