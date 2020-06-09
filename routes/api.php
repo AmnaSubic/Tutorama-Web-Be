@@ -44,31 +44,34 @@ Route::group ([
     /* UPDATE STUDENT CLASS STATUS */
     Route::post('updateStudentClassStatus/{status}/{id}', 'ClassesController@updateStudentStatus');
 
+    /* STORE NEW REVIEW */
+    Route::post('addReview', 'ReviewsController@store');
+
     /*
     |-----------------------------|
     |       GET FUNCTIONS         |
     |-----------------------------|
     */
     /* GET AUTHORIZED USER */
-    Route::get('me', 'AuthController@me');
+    Route::get('me','AuthController@me');
 
     /* GET ALL SUBJECTS */
-    Route::get('getSubjects', 'SubjectController@index');
+    Route::get('getSubjects','SubjectController@index');
 
     /* GET ALL SERVICES FOR AUTHORISED USER (TUTOR) */
-    Route::get('getAuthUserServices', 'ServicesController@authUserServices');
+    Route::get('getAuthUserServices','ServicesController@authUserServices');
 
     /* GET ALL AVAILABLE TIMES FOR AUTHORISED USER (TUTOR) */
-    Route::get('getAuthUserAvailableTimes', 'AvailableTimesController@authUserAvailableTimes');
+    Route::get('getAuthUserAvailableTimes','AvailableTimesController@authUserAvailableTimes');
 
     /* GET ALL SERVICES IN THE DB */
-    Route::get('getServices', 'ServicesController@index');
+    Route::get('getServices','ServicesController@index');
 
     /* GET INFORMATION ABOUT A SPECIFIED SERVICE */
-    Route::get('getServices/{id}', 'ServicesController@show');
+    Route::get('getServices/{id}','ServicesController@show');
 
     /* GET INFORMATION ABOUT A SPECIFIED USER */
-    Route::get('getUser/{id}', 'UserController@user');
+    Route::get('getUser/{id}','UserController@user');
 
     /* GET ALL SERVICES OF A SPECIFIED USER */
     Route::get('getUser/{id}/services','ServicesController@userServices');
@@ -80,6 +83,12 @@ Route::group ([
     Route::get('getAuthClasses','ClassesController@authClasses');
 
     /* GET CLASS INFO */
-    Route::get('getAuthClasses/{id}', 'ClassesController@show');
+    Route::get('getAuthClasses/{id}','ClassesController@show');
+
+    /* GET REVIEWS FOR AUTHORISED USER */
+    Route::get('getAuthReviews','ReviewsController@authReviews');
+
+    /* GET REVIEWS FOR A SPECIFIED USER */
+    Route::get('getUserReviews/{id}','ReviewsController@userReviews');
 
 });
