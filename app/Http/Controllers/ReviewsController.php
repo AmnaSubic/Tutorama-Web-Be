@@ -28,6 +28,7 @@ class ReviewsController extends Controller
                 -> where('reviews.Student_ID', $id)
                 -> where('reviews.Is_Tutor', 1)
                 -> select('reviews.*', 'users.First_Name', 'users.Last_Name')
+                -> orderByDesc('reviews.Date')
                 -> get();
         else
             return DB::table('reviews')
@@ -35,6 +36,7 @@ class ReviewsController extends Controller
                 -> where('reviews.Tutor_ID', $id)
                 -> where('reviews.Is_Tutor', 0)
                 -> select('reviews.*', 'users.First_Name', 'users.Last_Name')
+                -> orderByDesc('reviews.Date')
                 -> get();
     }
 
@@ -53,12 +55,14 @@ class ReviewsController extends Controller
                 -> where('reviews.Student_ID', '=', auth()->user()->getAuthIdentifier())
                 -> where('reviews.Is_Tutor', 1)
                 -> select('reviews.*', 'users.First_Name', 'users.Last_Name')
+                -> orderByDesc('reviews.Date')
                 -> get();
         else return DB::table('reviews')
             -> join('users', 'reviews.Student_ID', 'users.User_ID')
             -> where('reviews.Tutor_ID', '=', auth()->user()->getAuthIdentifier())
             -> where('reviews.Is_Tutor', 0)
             -> select('reviews.*', 'users.First_Name', 'users.Last_Name')
+            -> orderByDesc('reviews.Date')
             -> get();
     }
 
