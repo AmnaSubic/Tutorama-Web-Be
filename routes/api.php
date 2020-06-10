@@ -38,12 +38,6 @@ Route::group ([
     /* STORE NEW CLASS (STUDENT) */
     Route::post('addClass', 'ClassesController@store');
 
-    /* UPDATE CLASS STATUS */
-    Route::post('updateClassStatus/{status}/{id}', 'ClassesController@updateStatus');
-
-    /* UPDATE STUDENT CLASS STATUS */
-    Route::post('updateStudentClassStatus/{status}/{id}', 'ClassesController@updateStudentStatus');
-
     /* STORE NEW REVIEW */
     Route::post('addReview', 'ReviewsController@store');
 
@@ -90,5 +84,18 @@ Route::group ([
 
     /* GET REVIEWS FOR A SPECIFIED USER */
     Route::get('getUserReviews/{id}','ReviewsController@userReviews');
+
+
+    /*
+   |-----------------------------|
+   |       PUT FUNCTIONS         |
+   |-----------------------------|
+   */
+
+    /* UPDATE CLASS STATUS */
+    Route::put('updateClassStatus/{status}/{id}', 'ClassesController@updateStatus');
+
+    /* UPDATE STUDENT CLASS STATUS */
+    Route::put('updateStudentClassStatus/{status}/{id}', 'ClassesController@updateStudentStatus');
 
 });
