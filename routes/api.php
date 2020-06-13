@@ -91,7 +91,6 @@ Route::group ([
    |       PUT FUNCTIONS         |
    |-----------------------------|
    */
-
     /* UPDATE CLASS STATUS */
     Route::put('updateClassStatus/{status}/{id}', 'ClassesController@updateStatus');
 
