@@ -35,17 +35,17 @@ class ClassesController extends Controller
         return DB::table('classes')
             -> join('services', 'classes.Service_ID', 'services.Service_ID')
             -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
-            -> join('users', 'services.Tutor_ID', 'users.User_ID')
             -> where('classes.Student_ID', '=', auth()->user()->getAuthIdentifier())
-            -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name')
+            -> select('classes.Class_ID', 'classes.Date', 'classes.Start_at', 'classes.End_at', 'classes.Status',
+                'services.Service_Level', 'subjects.Subject_Name')
             -> orderByDesc('classes.Date')
             -> get();
         else return DB::table('classes')
             -> join('services','classes.Service_ID','services.Service_ID')
             -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
-            -> join('users', 'classes.Student_ID', 'users.User_ID')
             -> where('services.Tutor_ID', '=', auth()->user()->getAuthIdentifier())
-            -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name')
+            -> select('classes.Class_ID', 'classes.Date', 'classes.Start_at', 'classes.End_at', 'classes.Status',
+                'services.Service_Level', 'subjects.Subject_Name')
             -> orderByDesc('classes.Date')
             -> get();
     }
@@ -80,18 +80,18 @@ class ClassesController extends Controller
                 -> join('users', 'services.Tutor_ID', 'users.User_ID')
                 -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
                 -> where('classes.Class_ID', $id)
-                -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name',
-                'users.Date_of_Birth', 'users.Town', 'users.Country', 'users.Gender')
+                -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name',
+                    'users.Last_Name', 'users.Date_of_Birth', 'users.Town', 'users.Country', 'users.Gender')
                 -> first();
         else
             $class = DB::table('classes')
-            -> join('services', 'classes.Service_ID', 'services.Service_ID')
-            -> join('users', 'classes.Student_ID', 'users.User_ID')
-            -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
-            -> where('classes.Class_ID', $id)
-            -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name', 'users.Last_Name',
-                'users.Date_of_Birth', 'users.Town', 'users.Country', 'users.Gender')
-            -> first();
+                -> join('services', 'classes.Service_ID', 'services.Service_ID')
+                -> join('users', 'classes.Student_ID', 'users.User_ID')
+                -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
+                -> where('classes.Class_ID', $id)
+                -> select('classes.*', 'services.*', 'subjects.Subject_Name', 'users.First_Name',
+                    'users.Last_Name', 'users.Date_of_Birth', 'users.Town', 'users.Country', 'users.Gender')
+                -> first();
         return response()->json($class);
     }
 

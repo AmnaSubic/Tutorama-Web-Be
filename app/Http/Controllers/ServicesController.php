@@ -68,7 +68,9 @@ class ServicesController extends Controller
             -> join('users', 'services.Tutor_ID', 'users.User_ID')
             -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
             -> where('services.Service_ID', $id)
-            -> select('services.*', 'users.First_Name', 'users.Last_Name', 'users.Experience', 'users.Description', 'users.Availability', 'users.Address', 'users.Town', 'users.Country', 'subjects.Subject_Name')
+            -> select('services.*', 'users.First_Name', 'users.Last_Name', 'users.Experience',
+                'users.Description', 'users.Availability', 'users.Address', 'users.Town', 'users.Country',
+                'subjects.Subject_Name')
             -> first();
         return response()->json($service);
     }
