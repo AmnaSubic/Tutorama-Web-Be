@@ -6,7 +6,6 @@ use App\Services;
 use App\Http\Resources\Services as ServicesResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -89,6 +88,18 @@ class ServicesController extends Controller
     }
 
     /**
+     * Show auth service
+     */
+    public function showAuth($id) {
+        $service = DB::table('services')
+            -> where('services.Service_ID', $id)
+            -> join('subjects','services.Subject_ID', 'subjects.Subject_ID')
+            -> select('services.*', 'subjects.*')
+            -> first();
+        return response()->json($service);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param Request $request
@@ -97,13 +108,11 @@ class ServicesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $subject = $request->input('Subject_ID');
         $level = $request->input('Service_Level');
         $cost = $request->input('Service_Cost');
         DB::table('services')
             -> where('services.Service_ID', $id)
             -> update([
-                'services.Subject_ID' => $subject,
                 'services.Service_Level'=> $level,
                 'services.Service_Cost' => $cost
             ]);

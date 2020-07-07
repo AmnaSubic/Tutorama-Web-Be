@@ -62,6 +62,8 @@ class AuthController extends Controller
      * @return void
      */
     public function update(Request $request) {
+        $name = $request->input('First_Name');
+        $surname = $request->input('Last_Name');
         $email = $request->input('Email');
         $exp = $request->input('Experience');
         $desc = $request->input('Description');
@@ -74,6 +76,8 @@ class AuthController extends Controller
         DB::table('users')
             -> where('users.User_ID', auth()->id())
             -> update([
+                'users.First_Name' => $name,
+                'users.Last_Name' => $surname,
                 'users.Address' => $address,
                 'users.Town' => $town,
                 'users.Country' => $country,

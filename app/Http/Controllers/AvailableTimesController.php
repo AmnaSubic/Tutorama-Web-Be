@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\AvailableTimes;
 use App\Http\Resources\AvailableTimes as ATResource;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
@@ -68,6 +71,18 @@ class AvailableTimesController extends Controller
                 'available_times.Start_Time' => $start,
                 'available_times.End_Time' => $end
             ]);
+    }
+
+    /**
+     * Show available time
+     * @param $id
+     * @return JsonResponse
+     */
+    public function show($id) {
+        $at = DB::table('available_times')
+            -> where('available_times.Available_Time_ID', $id)
+            -> first();
+        return response()->json($at);
     }
 
     /**

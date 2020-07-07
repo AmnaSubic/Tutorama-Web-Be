@@ -53,10 +53,12 @@ class ClassesController extends Controller
         else return DB::table('classes')
             -> join('services','classes.Service_ID','services.Service_ID')
             -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
-            -> where([
-                ['services.Tutor_ID', '=', auth()->user()->getAuthIdentifier()],
-                ['classes.Stu_Status', '<>', 'Cancelled']
-            ])
+            -> where('services.Tutor_ID', '=', auth()->user()->getAuthIdentifier())
+            -> where(function ($query) {
+                $query -> where('classes.Stu_Status', '=', null)
+                    -> orWhere('classes.Stu_Status', '=', 'Started')
+                    -> orWhere('classes.Stu_Status', '=', 'Finished');
+            })
             -> where (function ($query) {
                 $query -> where('classes.Status', '=', 'Pending')
                     -> orWhere('classes.Status', '=', 'Started')

@@ -91,7 +91,11 @@ Route::group ([
     /* SEARCH FOR SPECIFIC SERVICE */
     Route::get('search/{subject}', 'ServicesController@search');
 
+    /* GET AVAILABLE TIME */
+    Route::get('getAvailableTime/{id}', 'AvailableTimesController@show');
 
+    /* GET AUTH SERVICE INFO */
+    Route::get('getAuthService/{id}', 'ServicesController@showAuth');
 
     /*
    |-----------------------------|
