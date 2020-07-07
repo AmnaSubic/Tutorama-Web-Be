@@ -112,6 +112,27 @@ class ServicesController extends Controller
     }
 
     /**
+     * Search for specific service
+     * @param string $subject
+     * @return Collection
+     */
+    public function search($subject) {
+
+        if ($subject == 'undefined' || $subject == 'all')
+            return DB::table('services')
+                -> join('users', 'services.Tutor_ID', '=', 'users.User_ID')
+                -> join('subjects', 'services.Subject_ID', '=', 'subjects.Subject_ID')
+                -> select('services.*', 'users.Town', 'users.Country', 'subjects.Subject_Name')
+                -> get();
+        else return DB::table('services')
+            -> join('users', 'services.Tutor_ID', '=', 'users.User_ID')
+            -> join('subjects', 'services.Subject_ID', '=', 'subjects.Subject_ID')
+            -> where('subjects.Subject_Name', 'LIKE', '%'.$subject.'%')
+            -> select('services.*', 'users.Town', 'users.Country', 'subjects.Subject_Name')
+            -> get();
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param Services $services

@@ -27,7 +27,7 @@ class ClassesController extends Controller
      *
      * @return Collection
      */
-    public function authClasses() {
+    public function authClassesCurrent() {
         $isTutor = DB::table('users')
             -> where('User_ID', auth()->user()->getAuthIdentifier())
             -> value('Is_Tutor');
@@ -36,6 +36,15 @@ class ClassesController extends Controller
             -> join('services', 'classes.Service_ID', 'services.Service_ID')
             -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
             -> where('classes.Student_ID', '=', auth()->user()->getAuthIdentifier())
+            -> where(function ($query) {
+                $query -> where('classes.Stu_Status', '=', null)
+                    -> orWhere('classes.Stu_Status', '=', 'Started');
+            })
+            -> where(function ($query) {
+                $query -> where('classes.Status', '=', 'Pending')
+                    -> orWhere('classes.Status', '=', 'Started')
+                    -> orWhere('classes.Status', '=', 'Accepted');
+            })
             -> select('classes.Class_ID', 'classes.Date', 'classes.Start_at', 'classes.End_at', 'classes.Status',
                 'services.Service_Level', 'subjects.Subject_Name')
             -> orderByDesc('classes.Date')
@@ -43,7 +52,53 @@ class ClassesController extends Controller
         else return DB::table('classes')
             -> join('services','classes.Service_ID','services.Service_ID')
             -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
+            -> where([
+                ['services.Tutor_ID', '=', auth()->user()->getAuthIdentifier()],
+                ['classes.Stu_Status', '<>', 'Cancelled']
+            ])
+            -> where (function ($query) {
+                $query -> where('classes.Status', '=', 'Pending')
+                    -> orWhere('classes.Status', '=', 'Started')
+                    -> orWhere('classes.Status', '=', 'Accepted');
+            })
+            -> select('classes.Class_ID', 'classes.Date', 'classes.Start_at', 'classes.End_at', 'classes.Status',
+                'services.Service_Level', 'subjects.Subject_Name')
+            -> orderByDesc('classes.Date')
+            -> get();
+    }
+
+    /** Display classes history
+     *
+     */
+    public function authClassesHistory() {
+        $isTutor = DB::table('users')
+            -> where('User_ID', auth()->user()->getAuthIdentifier())
+            -> value('Is_Tutor');
+        if ($isTutor == 0)
+            return DB::table('classes')
+                -> join('services', 'classes.Service_ID', 'services.Service_ID')
+                -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
+                -> where('classes.Student_ID', '=', auth()->user()->getAuthIdentifier())
+                -> where (function ($query) {
+                    $query -> where('classes.Stu_Status', '=', 'Finished')
+                        -> orWhere('classes.Status', '=', 'Cancelled')
+                        -> orWhere('classes.Status', '=', 'Rejected')
+                        -> orWhere('classes.Stu_Status', '=', 'Cancelled');
+                })
+                -> select('classes.Class_ID', 'classes.Date', 'classes.Start_at', 'classes.End_at', 'classes.Status',
+                    'services.Service_Level', 'subjects.Subject_Name')
+                -> orderByDesc('classes.Date')
+                -> get();
+        else return DB::table('classes')
+            -> join('services','classes.Service_ID','services.Service_ID')
+            -> join('subjects', 'services.Subject_ID', 'subjects.Subject_ID')
             -> where('services.Tutor_ID', '=', auth()->user()->getAuthIdentifier())
+            -> where (function ($query) {
+                $query -> where('classes.Status', '=', 'Finished')
+                    -> orWhere('classes.Status', '=', 'Cancelled')
+                    -> orWhere('classes.Status', '=', 'Rejected')
+                    -> orWhere('classes.Stu_Status', '=', 'Cancelled');
+            })
             -> select('classes.Class_ID', 'classes.Date', 'classes.Start_at', 'classes.End_at', 'classes.Status',
                 'services.Service_Level', 'subjects.Subject_Name')
             -> orderByDesc('classes.Date')
@@ -96,17 +151,6 @@ class ClassesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return void
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param string $status
@@ -133,16 +177,5 @@ class ClassesController extends Controller
         DB::table('classes')
             -> where('classes.Class_ID', $id)
             -> update(['classes.Stu_Status' => $status]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return void
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

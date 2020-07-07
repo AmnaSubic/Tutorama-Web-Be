@@ -73,8 +73,11 @@ Route::group ([
     /* GET ALL AVAILABLE TIMES OF A SPECIFIED USER */
     Route::get('getUser/{id}/availableTimes','AvailableTimesController@userAvailableTimes');
 
-    /* GET ALL CLASSES FOR AUTHORISED USER */
-    Route::get('getAuthClasses','ClassesController@authClasses');
+    /* GET ALL CURRENT CLASSES FOR AUTHORISED USER */
+    Route::get('getAuthClassesCurrent','ClassesController@authClassesCurrent');
+
+    /* GET ALL CLASSES HISTORY FOR AUTHORISED USER */
+    Route::get('getAuthClassesHistory', 'ClassesController@authClassesHistory');
 
     /* GET CLASS INFO */
     Route::get('getAuthClasses/{id}','ClassesController@show');
@@ -84,6 +87,10 @@ Route::group ([
 
     /* GET REVIEWS FOR A SPECIFIED USER */
     Route::get('getUserReviews/{id}','ReviewsController@userReviews');
+
+    /* SEARCH FOR SPECIFIC SERVICE */
+    Route::get('search/{subject}', 'ServicesController@search');
+
 
 
     /*
