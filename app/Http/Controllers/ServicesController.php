@@ -89,26 +89,24 @@ class ServicesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Services $services
-     * @return void
-     */
-    public function edit(Services $services)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Services $services
+     * @param $id
      * @return void
      */
-    public function update(Request $request, Services $services)
+    public function update(Request $request, $id)
     {
-        //
+        $subject = $request->input('Subject_ID');
+        $level = $request->input('Service_Level');
+        $cost = $request->input('Service_Cost');
+        DB::table('services')
+            -> where('services.Service_ID', $id)
+            -> update([
+                ['services.Subject_ID' => $subject],
+                ['services.Service_Level'=> $level],
+                ['services.Service_Level' => $cost]
+            ]);
     }
 
     /**
@@ -135,11 +133,13 @@ class ServicesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Services $services
+     * @param int $id
      * @return void
      */
-    public function destroy(Services $services)
+    public function destroy($id)
     {
-        //
+        DB::table('services')
+            -> where('services.Service_ID', $id)
+            -> delete();
     }
 }

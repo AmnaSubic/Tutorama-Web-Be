@@ -104,4 +104,20 @@ Route::group ([
     /* UPDATE STUDENT CLASS STATUS */
     Route::put('updateStudentClassStatus/{status}/{id}', 'ClassesController@updateStudentStatus');
 
+    /* UPDATE SERVICE */
+    Route::put('updateService/{id}', 'ServicesController@update');
+
+
+
+    /*
+   |-----------------------------|
+   |      DELETE FUNCTIONS       |
+   |-----------------------------|
+   */
+
+    /* DELETE SERVICE */
+    Route::delete('deleteService/{id}', 'ServicesController@destroy');
+
+    /* DELETE AVAILABLE TIME */
+    Route::delete('deleteAT/{id}', 'AvailableTimesController@destroy');
 });

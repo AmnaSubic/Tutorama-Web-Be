@@ -6,6 +6,7 @@ use App\AvailableTimes;
 use App\Http\Resources\AvailableTimes as ATResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\DB;
 
 class AvailableTimesController extends Controller
 {
@@ -49,17 +50,6 @@ class AvailableTimesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return void
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param Request $request
@@ -79,6 +69,8 @@ class AvailableTimesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('available_times')
+            -> where('available_times.Available_Time_ID', $id)
+            -> delete();
     }
 }
