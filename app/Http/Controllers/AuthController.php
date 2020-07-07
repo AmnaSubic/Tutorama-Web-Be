@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterRequest;
 use App\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -51,6 +53,36 @@ class AuthController extends Controller
     public function me()
     {
         return response()->json(auth()->user());
+    }
+
+    /**
+     * Update User Information
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function update(Request $request) {
+        $email = $request->input('Email');
+        $exp = $request->input('Experience');
+        $desc = $request->input('Description');
+        $phone = $request->input('Phone_Number');
+        $address = $request->input('Address');
+        $town = $request->input('Town');
+        $country = $request->input('Country');
+        $availability = $request->input('Availability');
+
+        DB::table('users')
+            -> where('users.User_ID', auth()->id())
+            -> update([
+                'users.Address' => $address,
+                'users.Town' => $town,
+                'users.Country' => $country,
+                'users.Phone_Number' => $phone,
+                'users.Email' => $email,
+                'users.Description' => $desc,
+                'users.Experience' => $exp,
+                'users.Availability' => $availability
+            ]);
     }
 
     /**

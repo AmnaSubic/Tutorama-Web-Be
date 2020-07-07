@@ -58,7 +58,16 @@ class AvailableTimesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $day = $request->input('Day');
+        $start = $request->input('Start_Time');
+        $end = $request->input('End_Time');
+        DB::table('available_times')
+            -> where('available_times.Available_Time_ID', $id)
+            -> update([
+                'available_times.Day' => $day,
+                'available_times.Start_Time' => $start,
+                'available_times.End_Time' => $end
+            ]);
     }
 
     /**

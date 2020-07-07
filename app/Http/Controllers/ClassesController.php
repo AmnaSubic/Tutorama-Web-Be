@@ -43,7 +43,8 @@ class ClassesController extends Controller
             -> where(function ($query) {
                 $query -> where('classes.Status', '=', 'Pending')
                     -> orWhere('classes.Status', '=', 'Started')
-                    -> orWhere('classes.Status', '=', 'Accepted');
+                    -> orWhere('classes.Status', '=', 'Accepted')
+                    -> orWhere('classes.Status', '=', 'Finished');
             })
             -> select('classes.Class_ID', 'classes.Date', 'classes.Start_at', 'classes.End_at', 'classes.Status',
                 'services.Service_Level', 'subjects.Subject_Name')

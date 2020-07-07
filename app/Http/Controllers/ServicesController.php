@@ -103,9 +103,9 @@ class ServicesController extends Controller
         DB::table('services')
             -> where('services.Service_ID', $id)
             -> update([
-                ['services.Subject_ID' => $subject],
-                ['services.Service_Level'=> $level],
-                ['services.Service_Level' => $cost]
+                'services.Subject_ID' => $subject,
+                'services.Service_Level'=> $level,
+                'services.Service_Cost' => $cost
             ]);
     }
 

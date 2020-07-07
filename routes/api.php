@@ -107,6 +107,12 @@ Route::group ([
     /* UPDATE SERVICE */
     Route::put('updateService/{id}', 'ServicesController@update');
 
+    /* UPDATE AVAILABLE TIME */
+    Route::put('updateAT/{id}', 'AvailableTimesController@update');
+
+    /* UPDATE USER INFORMATION */
+    Route::put('updateInfo', 'AuthController@update');
+
 
 
     /*
